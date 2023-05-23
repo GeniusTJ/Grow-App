@@ -1,0 +1,24 @@
+{% extends "projects/base.html" %}
+{% block content %}
+	{% for project in projects %}
+			<article class="media content-section">
+	  <div class="media-body">
+	    <div class="article-metadata">
+	      <a class="mr-2" href="#">{{ project.creator }}</a>
+	      <small class="text-muted">| Dead Line : {{ project.deadline|date:"D d M Y" }} </small>
+	      
+	      
+	    </div>
+	    <h2><a class="article-title" href="{% url 'projects:details' project.id %}">{{ project.name }}</a></h2>
+	    <p class="article-content">{{ project.description }}</p>
+
+	  <div >
+	      <small class="text-muted">Amount : {{ project.amount}}$ |</small>
+	      <small class="text-muted">Tag {{ project.tag}} | </small>
+		  <small class="text-muted">Submissions {{ project.get_no_of_submissions }}</small>
+
+	    </div>
+	  </div>
+	</article>
+	{% endfor %}
+{% endblock content %}

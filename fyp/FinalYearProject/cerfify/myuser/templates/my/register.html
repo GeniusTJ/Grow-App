@@ -1,0 +1,48 @@
+{% extends "my/base.html" %}
+{% block content %}
+
+		<form method="post" action = "{% url 'myuser:myuser_register' %}" >
+			{% csrf_token %}
+			{% if form.errors %}
+			<p> There Are Errors in the Form </p>
+			{% endif %}
+<table>
+	<form method="POST">
+            {% csrf_token %}
+
+	  <div class="form-group">
+    <label >Username</label>
+    <div class="form-control">{{ form.username }}</div>
+<label >Name</label>
+			  <div class="form-row">
+    <div class="col">
+        <div class="form-control" >{{ form.first_name }}</div>
+    </div>
+    <div class="col">
+        <div  class="form-control" >{{ form.last_name }}</div>
+    </div>
+  </div>
+
+			 <label >Email</label>
+             <div  class="form-control">{{ form.email }}</div>
+
+
+			 			 <label >Date of birth</label>
+                         <div class="form-control">{{ form.date_of_birth}}</div>
+			 			 <label >Password</label>
+                         <div class="form-control">{{ form.password1 }}</div>
+			 			 <label >Re-enter Password</label>
+                         <div class="form-control">{{ form.password2 }}</div>
+
+  </div>
+
+
+        </form>
+
+
+
+</table>
+			<input class="btn btn-primary" type="submit" value = "Register">
+		</form>
+
+{% endblock content %}

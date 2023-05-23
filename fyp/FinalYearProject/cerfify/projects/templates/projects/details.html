@@ -1,0 +1,76 @@
+{% extends "projects/base.html" %}
+
+{% block content %}
+
+{% if project %}
+	<h2>{{ project.name }}</h2>
+<div class="card">
+		<div class="card-body">
+		<h5 class="card-title">Project From : {{project.creator}} </h5>
+			<div class="container"> {{project.description}} </div>
+		<div class="card-text">  Prize Money : {{project.amount}} $ </div>
+			<div class="card-text">  Level : <b>  {{project.level}}  </b> </div>
+    
+        <div class="card-text">
+        {% if project.ranked %}
+        <p class="text-danger">Closed</p>
+        {% else %}
+        <p class="text-success">Open</p>
+        {% endif %}
+        </div>
+		</div>
+        
+</div>
+	<h2>Submissions</h2>
+    <div class="container">
+    <table>
+		{% csrf_token %}
+		{% for sub in project.submissions %}
+        <tr>
+            <td> User 
+                {% if sub.submitter == user.get_username %}
+                <b>{{ sub.submitter}} </b>
+                {% else %}
+                {{ sub.submitter }}
+                {% endif %}
+            </td> 
+            {% if sameuser or sub.submitter == user.get_username %}
+            <td><a href=" {{sub.files}}" >Files</a> </td>
+            {% endif %}
+		{% if project.ranked %}
+        <td> Rank : {{ sub.rank }}</td>
+		{% elif sameuser %} 
+        <td>
+		<input type = "number" min=0 max=3 placeholder="rank" name="rank{{ sub.submitter }}"/>
+        </td>
+		{% endif %}
+        </tr>
+		{% endfor %}
+
+    <table>
+    </div>
+	{%if not project.ranked and sameuser and project.submissions|length > 0 %}
+		<input type="submit" formaction='{% url "projects:set_ranks" project.id %}' value="Set Rank">
+	{% endif %}
+
+	{% if project.submissions|length == 0 %}
+		<p> No Submissions Yet </p>
+	{% endif %}
+
+
+	<form>
+{% if not project.ranked and not sameuser %}
+	<h1>Make Your Submission<h2>
+	<form  method="POST" enctype="multipart/form-data" >
+	{% csrf_token %}
+	<label for="files"> Link To Your Files</label> <br>
+	<input text="url" name="files" id="files"/>
+<input type="submit" value="Add Submission" formaction ="{% url "projects:make_submission" project.id %}"/>
+</form>
+{% endif %}
+
+{% else %}
+	<p> This project is not found</p>
+{% endif %}
+
+{% endblock content %}

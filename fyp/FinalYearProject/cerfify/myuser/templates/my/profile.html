@@ -1,0 +1,57 @@
+{% extends "my/base.html" %}
+{% block content %}
+
+
+<h2>Profile</h2>
+    {% if user%}
+
+
+        <div class="container border col-md-4">
+
+            <div class="d-flex flex-column align-items-center ">
+                <div class="display-3"> Rank </div>
+                <div class="display-1"> {{ user.rank}} </div>
+                <div class="container">
+                    <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+                 style="width:{{ percentage }}%">
+              <span class="sr-only"></span>
+            </div>
+          </div>
+                </div>
+                <h3> {{ user.username}} </h3>
+
+                <h6> {{ user.first_name}} {{ user.last_name }}</h6>
+                <h6> {{ user.email}} </h6>
+            </div>
+        </div>
+
+<h2>My Projects</h2>
+{% if projects %}
+{% for project in projects %}
+<div class="container border">
+     <a    href="{% url 'projects:details' project.id %}"> {{ project.name}} </a>
+    <div> Submissions : {{ project.get_no_of_submissions }} </div>
+    
+</div>
+{% endfor %}
+{% else %}
+    <h5> You do have any projects</h5>
+    {% endif %}
+<!--
+<h2> My Submissions </h2>
+{% if user.submissions %}
+    {% for submission in user.submissions %}
+    <div class="container border">
+         <a    href="{% url 'projects:details' submission.project.id %}"> {{ submission.project_id }} </a>
+        <a href= "{{ submission.files}}"> File </a>
+    </div>
+    {% endfor %}
+{% else %}
+    <h5> You have not made any submissions </h5>
+{% endif %}
+ -->
+{% else %}
+<p> No Such User</p>
+{% endif %}
+{% endblock content %}

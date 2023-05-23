@@ -1,0 +1,41 @@
+{% extends "projects/base.html" %}
+{% block content %}
+<h2>Create A Project</h2>
+
+{% if error %}
+<p> {{ error }} </p>
+{% endif %}
+<form action = '{% url  "projects:create_project" %}' method="POST">
+	{% csrf_token %}
+
+<form>
+  <div class="form-group">
+    <label >Project Name</label>
+	  <input type="text" class="form-control" name="project_name" id="project_name"/>
+  </div>
+
+  <div class="form-group">
+    <label >Project Description</label>
+    <textarea  rows="3" class="form-control" name="project_description" id="project_description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label >Price Money</label>
+  		<input value=0 type="number" class="form-control" name="amount" id="amount"/>
+  </div>
+    <div class="form-group">
+    <label >Project Level</label>
+      <input class ="form-control" type="number" id="level" name="level" min="1" max="7"/>
+  </div>
+  <div class="form-group">
+    <label >Date</label>
+	  <input type="date" class="form-control" name="datetime" id="datetime"/>
+  </div>
+	<input type="submit" class="btn btn-primary" Value="Create Project" >
+
+</form>
+
+</form>
+{% endblock content %}
+
+</form>
